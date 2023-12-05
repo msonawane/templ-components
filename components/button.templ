@@ -1,0 +1,42 @@
+package components
+
+type ButtonOpts struct {
+	Text                                                            string
+	Class                                                           string
+	Disabled                                                        bool
+	Icon                                                            templ.Component
+	HREF                                                            string
+	Primary, Secondary, Success, Warning, Danger, Info, Dark, Light bool
+}
+
+templ Button(opts ButtonOpts) {
+	<a
+ 		href={ templ.URL(opts.HREF) }
+ 		class={
+			"btn",
+			templ.KV("btn-primary", opts.Primary),
+			templ.KV("btn-secondary", opts.Secondary),
+			templ.KV("btn-success", opts.Success),
+			templ.KV("btn-info", opts.Info),
+			templ.KV("btn-warning", opts.Warning),
+			templ.KV("btn-danger", opts.Danger),
+			templ.KV("btn-dark", opts.Dark),
+			templ.KV("btn-light", opts.Light),
+			templ.KV("disabled", opts.Disabled),
+			opts.Class,
+		}
+	>
+		if opts.Icon != nil {
+			@opts.Icon
+		}
+		{ 	opts.Text }
+	</a>
+}
+
+templ ButtonList(class string, childs ...templ.Component) {
+	<div class="btn-list">
+		for _, c := range childs {
+			@c
+		}
+	</div>
+}

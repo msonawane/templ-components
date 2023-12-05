@@ -54,6 +54,26 @@ func main() {
 	// 	BreadCrumbs: bc,
 	// }
 
+	pb := components.ButtonOpts{
+		Text:     "Primary",
+		Class:    "another class",
+		Disabled: false,
+		Icon:     components.InfoCircleSVG(),
+		Primary:  true,
+	}
+	sb := components.ButtonOpts{
+		Text:      "Secondary",
+		Class:     "",
+		Disabled:  false,
+		Secondary: true,
+	}
+	pbd := components.ButtonOpts{
+		Text:     "Primary pill disabled",
+		Class:    "btn-pill",
+		Disabled: true,
+		Primary:  true,
+	}
+
 	pageOpts := components.PageOpts{
 		Title:       "Alerts",
 		BreadCrumbs: bc,
@@ -62,6 +82,12 @@ func main() {
 			components.Alert(dangerAlertOpts),
 			components.Alert(infoAlertOpts),
 			components.Alert(warningAlertOpts),
+			components.ButtonList("",
+				components.Button(pb),
+				components.Button(pbd),
+				components.Button(sb),
+				components.Button(pb),
+			),
 		},
 	}
 
