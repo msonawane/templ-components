@@ -1,0 +1,18 @@
+package components
+
+type NavItemOpts struct {
+	Class  string
+	HREF   string
+	Text   string
+	Active bool
+}
+
+templ NavItem(opts NavItemOpts) {
+	<li class="nav-item">
+		<a class="nav-link" href={ templ.URL(opts.HREF) }>
+			<span class="nav-link-title">
+				{ opts.Text }
+			</span>
+		</a>
+	</li>
+}

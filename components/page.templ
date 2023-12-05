@@ -1,0 +1,39 @@
+package components
+
+type PageOpts struct {
+	Title       string
+	BreadCrumbs templ.Component
+	Children    []templ.Component
+}
+
+templ Page(opts PageOpts) {
+	<div class="page-header ">
+		<div class="row align-items-center mw-100">
+			<div class="col">
+				if opts.BreadCrumbs != nil {
+					<div class="mb-1">
+						@opts.BreadCrumbs
+					</div>
+				}
+				<h2 class="page-title">
+					<span class="text-truncate">{ opts.Title }</span>
+				</h2>
+			</div>
+		</div>
+	</div>
+	<div class="page-body">
+		<div class="container-xl">
+			{ children... }
+		</div>
+	</div>
+}
+
+templ P(opts LayoutOpts, pageOpts PageOpts) {
+	@SideBarlayout(opts) {
+		@Page(pageOpts) {
+			for _, alert := range pageOpts.Children {
+				@alert
+			}
+		}
+	}
+}

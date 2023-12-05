@@ -1,0 +1,18 @@
+package components
+
+type CardOptions struct {
+	Title       string
+	BreadCrumbs templ.Component
+}
+
+templ Card(opt CardOptions) {
+	<div class="card">
+		<div class="card-header">
+			<h3 class="card-title">{ opt.Title }</h3>
+			@opt.BreadCrumbs
+		</div>
+		<div class="card-body">
+			<p class="text-secondary">This is some text within a card body.</p>
+		</div>
+	</div>
+}

@@ -1,0 +1,25 @@
+package components
+
+templ BreadCrumbs(links ...LinkOpts) {
+	<ol class="breadcrumb breadcrumb-arrows" aria-label="breadcrumbs">
+		for _, link := range links {
+			<li
+ 				class={ "breadcrumb-item", 
+            templ.KV("active",link.Active) }
+			>
+				@Link(link)
+			</li>
+		}
+	</ol>
+}
+
+type LinkOpts struct {
+	HREF    string
+	Classes string
+	Text    string
+	Active  bool
+}
+
+templ Link(opts LinkOpts) {
+	<a href={ templ.URL(opts.HREF) } class={ opts.Classes }>{ opts.Text }</a>
+}

@@ -1,0 +1,121 @@
+package components
+
+type MetaTagsOpts struct {
+	AppName     string
+	Title       string
+	Description string
+	Keywords    string
+}
+
+type LayoutOpts struct {
+	MetaTagsOpts MetaTagsOpts
+	BodyClass    string
+}
+
+templ MetaTags(opts MetaTagsOpts) {
+	<title>
+		if opts.Title != "" {
+			{ opts.Title } |
+		}
+		{ opts.AppName }
+	</title>
+	<link rel="icon" href="/favicon.png?v=1"/>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	if opts.Description  != "" {
+		<meta name="description" content={ opts.Description }/>
+	}
+	if opts.Keywords != "" {
+		<meta name="keywords" content={ opts.Keywords }/>
+	}
+}
+
+templ JS() {
+	<script defer src="/static/js/htmx.min.js"></script>
+	<script defer src="/static/js/tabler.min.js"></script>
+}
+
+templ CSS() {
+	<link href="/static/css/tabler.min.css" rel="stylesheet"/>
+	<link href="/static/css/tabler-flags.min.css" rel="stylesheet"/>
+	<link href="/static/css/tabler-payments.min.css" rel="stylesheet"/>
+	<link href="/static/css/tabler-vendors.min.css" rel="stylesheet"/>
+	<link href="/static/css/style.css" rel="stylesheet"/>
+	<style>
+    @import url("https://rsms.me/inter/inter.css");
+    :root {
+      --tblr-font-sans-serif: Inter, -apple-system, BlinkMacSystemFont,
+        San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+    }
+  </style>
+}
+
+templ SideBar(appName string) {
+	<!-- Sidebar -->
+	<aside class="navbar navbar-vertical navbar-expand-sm navbar">
+		<div class="container-fluid">
+			<button class="navbar-toggler" type="button">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<h1 class="navbar-brand navbar-brand-autodark">
+				<a href="/">
+					<h2>{ appName }</h2>
+				</a>
+			</h1>
+			<div class="collapse navbar-collapse" id="sidebar-menu">
+				<ul class="navbar-nav pt-lg-3">
+					<li class="nav-item">
+						<a class="nav-link" href="/">
+							<span class="nav-link-title">
+								Home
+							</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span class="nav-link-title">
+								Link 1
+							</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span class="nav-link-title">
+								Link 2
+							</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">
+							<span class="nav-link-title">
+								Link 3
+							</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</aside>
+}
+
+templ SideBarlayout(opts LayoutOpts) {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			@MetaTags(opts.MetaTagsOpts)
+			@CSS()
+			@JS()
+		</head>
+		<body class={ opts.BodyClass }>
+			<main>
+				<div class="page">
+					@SideBar(opts.MetaTagsOpts.AppName)
+					<div class="page-wrapper">
+						{ children... }
+					</div>
+				</div>
+			</main>
+		</body>
+	</html>
+}
