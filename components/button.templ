@@ -5,14 +5,16 @@ type ButtonOpts struct {
 	Class                                                           string
 	Disabled                                                        bool
 	Icon                                                            templ.Component
-	HREF                                                            string
+	Target                                                          string
 	Primary, Secondary, Success, Warning, Danger, Info, Dark, Light bool
+	BadgeText                                                       string
+	BadgeClass                                                      string
 }
 
-templ Button(opts ButtonOpts) {
+templ Button( opts ButtonOpts) {
 	<a
- 		href={ templ.URL(opts.HREF) }
- 		class={
+ 		href={ templ.URL(opts.Target) }
+ 		class={ 
 			"btn",
 			templ.KV("btn-primary", opts.Primary),
 			templ.KV("btn-secondary", opts.Secondary),
@@ -24,19 +26,56 @@ templ Button(opts ButtonOpts) {
 			templ.KV("btn-light", opts.Light),
 			templ.KV("disabled", opts.Disabled),
 			opts.Class,
-		}
+		 }
 	>
 		if opts.Icon != nil {
 			@opts.Icon
 		}
 		{ 	opts.Text }
+		if opts.BadgeText != "" {
+			<span class={ "badge ms-2", opts.BadgeClass }>{ opts.BadgeText }</span>
+		}
 	</a>
 }
 
-templ ButtonList(class string, childs ...templ.Component) {
+templ ButtonList(class ...string) {
 	<div class="btn-list">
-		for _, c := range childs {
-			@c
-		}
+		{ children... }
 	</div>
+}
+
+templ ButtonPage(opts LayoutOpts, bc templ.Component) {
+	@SideBarlayout(opts) {
+		@PageBody() {
+			@ButtonCard(bc)
+		}
+	}
+}
+
+templ ButtonCard(cardTitle templ.Component) {
+	@Card() {
+		@CardHeader() {
+			@CardTitle() {
+				@cardTitle
+			}
+		}
+		@CardBody() {
+			@ButtonList() {
+				@Button(ButtonOpts{Primary: true, Target: "#", Text: "Primary"})
+				@Button(ButtonOpts{Primary: true, Disabled: true, Target: "#", Text: "Primary Disabled"})
+				@Button(ButtonOpts{Secondary: true, Text: "Secondary"})
+				@Button(ButtonOpts{Info: true, Text: "Info"})
+				@Button(ButtonOpts{Success: true, Text: "Success"})
+				@Button(ButtonOpts{Warning: true, Text: "Warning"})
+				@Button(ButtonOpts{Danger: true, Text: "Danger"})
+			}
+			<hr/>
+			@ButtonList() {
+				@Button(ButtonOpts{Primary: true, Text: "Primary with Icon and badge", Icon: InfoCircleSVG(), BadgeText: "4"})
+				@Button(ButtonOpts{Secondary: true, Text: "Secondary with Icon and badge", Icon: InfoCircleSVG(), BadgeText: "4"})
+				@Button(ButtonOpts{Success: true, Text: "Success with Icon and badge", Icon: InfoCircleSVG(), BadgeText: "4"})
+				@Button(ButtonOpts{Danger: true, Text: "Danger with Icon and badge class green", Icon: InfoCircleSVG(), BadgeText: "4", BadgeClass: "bg-green"})
+			}
+		}
+	}
 }

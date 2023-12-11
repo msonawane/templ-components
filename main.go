@@ -1,100 +1,112 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	"github.com/msonawane/fe/components"
 )
 
-func main() {
-
-	// Start the server.
-	fmt.Println("listening on http://localhost:8000")
-	e := echo.New()
-
-	metaTagsOpts := components.MetaTagsOpts{
+var (
+	metaTagsOpts = components.MetaTagsOpts{
 		AppName: "Components",
 		Title:   "Title",
 	}
 
-	layoutOpts := components.LayoutOpts{
+	layoutOpts = components.LayoutOpts{
 		MetaTagsOpts: metaTagsOpts,
-		BodyClass:    "bg-azure-lt",
+		BodyClass:    "bg-blue-lt",
 	}
+)
 
-	successAlertOpt := components.SuccessAlertOpts
-	successAlertOpt.Title = "Success Title"
-	successAlertOpt.Text = "Success Text"
+func main() {
 
-	dangerAlertOpts := components.DangerAlertOpts
-	dangerAlertOpts.Title = "Danger Title"
-	dangerAlertOpts.Text = "Danger Alert"
+	e := echo.New()
 
-	infoAlertOpts := components.InfoAlertOpts
-	infoAlertOpts.Title = "Info Title"
+	g := e.Group("")
+	g.GET("/", alerts).Name = "alerts"
+	g.GET("/buttons", buttons).Name = "buttons"
+	g.GET("/cards", cards).Name = "cards"
+	g.GET("/tables", tables).Name = "tables"
 
-	warningAlertOpts := components.WarningAlertOpts
-	warningAlertOpts.Title = "Warning Title"
+	e.Static("/static", "assets")
+	e.Logger.Fatal(e.Start(":8000"))
+}
 
+func alerts(ctx echo.Context) error {
 	links := []components.LinkOpts{{
 		HREF: "/",
 		Text: "Components",
 	},
 		{
-			HREF:   "#",
+			HREF:   ctx.Echo().Reverse("alerts"),
 			Text:   "Alerts",
 			Active: true,
 		},
 	}
 	bc := components.BreadCrumbs(links...)
-	// cardOption := components.CardOptions{
-	// 	Title:       "Title",
-	// 	BreadCrumbs: bc,
-	// }
 
-	pb := components.ButtonOpts{
-		Text:     "Primary",
-		Class:    "another class",
-		Disabled: false,
-		Icon:     components.InfoCircleSVG(),
-		Primary:  true,
+	return components.AlertPage(layoutOpts, bc).Render(ctx.Request().Context(), ctx.Response().Writer)
+}
+
+func buttons(ctx echo.Context) error {
+
+	nm := NavMenu(ctx)["buttons"]
+	nm.Active = true
+	links := []components.LinkOpts{
+		NavMenu(ctx)["root"],
+		nm,
 	}
-	sb := components.ButtonOpts{
-		Text:      "Secondary",
-		Class:     "",
-		Disabled:  false,
-		Secondary: true,
+	bc := components.BreadCrumbs(links...)
+
+	return components.ButtonPage(layoutOpts, bc).Render(ctx.Request().Context(), ctx.Response().Writer)
+}
+
+func cards(ctx echo.Context) error {
+
+	nm := NavMenu(ctx)["cards"]
+	nm.Active = true
+	links := []components.LinkOpts{
+		NavMenu(ctx)["root"],
+		nm,
 	}
-	pbd := components.ButtonOpts{
-		Text:     "Primary pill disabled",
-		Class:    "btn-pill",
-		Disabled: true,
-		Primary:  true,
+	bc := components.BreadCrumbs(links...)
+
+	return components.CardPage(layoutOpts, bc).Render(ctx.Request().Context(), ctx.Response().Writer)
+}
+
+func tables(ctx echo.Context) error {
+
+	nm := NavMenu(ctx)["tables"]
+	nm.Active = true
+	links := []components.LinkOpts{
+		NavMenu(ctx)["root"],
+		nm,
+	}
+	bc := components.BreadCrumbs(links...)
+
+	return components.TablePage(layoutOpts, bc).Render(ctx.Request().Context(), ctx.Response().Writer)
+}
+func NavMenu(ctx echo.Context) map[string]components.LinkOpts {
+	menuLinks := map[string]components.LinkOpts{}
+	menuLinks["root"] = components.LinkOpts{
+		HREF: "/",
+		Text: "Components",
+	}
+	menuLinks["alerts"] = components.LinkOpts{
+		HREF: ctx.Echo().Reverse("alerts"),
+		Text: "Alerts",
+	}
+	menuLinks["buttons"] = components.LinkOpts{
+		HREF: ctx.Echo().Reverse("buttons"),
+		Text: "Buttons",
+	}
+	menuLinks["cards"] = components.LinkOpts{
+		HREF: ctx.Echo().Reverse("cards"),
+		Text: "Card with Action buttons",
+	}
+	menuLinks["tables"] = components.LinkOpts{
+		HREF: ctx.Echo().Reverse("tables"),
+		Text: "Tables",
 	}
 
-	pageOpts := components.PageOpts{
-		Title:       "Alerts",
-		BreadCrumbs: bc,
-		Children: []templ.Component{
-			components.Alert(successAlertOpt),
-			components.Alert(dangerAlertOpts),
-			components.Alert(infoAlertOpts),
-			components.Alert(warningAlertOpts),
-			components.ButtonList("",
-				components.Button(pb),
-				components.Button(pbd),
-				components.Button(sb),
-				components.Button(pb),
-			),
-		},
-	}
-
-	e.GET("/", func(c echo.Context) error {
-		return components.P(layoutOpts, pageOpts).Render(c.Request().Context(), c.Response().Writer)
-	})
-
-	e.Static("/static", "assets")
-	e.Logger.Fatal(e.Start(":8000"))
+	return menuLinks
 }

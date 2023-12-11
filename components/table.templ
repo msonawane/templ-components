@@ -1,0 +1,107 @@
+package components
+
+templ Table() {
+	<table class="table table-responsive">
+		{ children... }
+	</table>
+}
+
+templ TableHead(cols ...string) {
+	<thead class="sticky-top">
+		<tr>
+			for _, col := range cols {
+				<th scope="col">{ col }</th>
+			}
+		</tr>
+	</thead>
+}
+
+templ TableBody() {
+	<tbody>
+		{ children... }
+	</tbody>
+}
+
+templ TableRow( class ...string) {
+	<tr class={ class }>
+		b
+		{ children... }
+	</tr>
+}
+
+templ TablePage(opts LayoutOpts, bc templ.Component) {
+	@SideBarlayout(opts) {
+		@PageBody() {
+			<table class="table table-responsive">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th class="text-nowrap">Heading 1</th>
+						<th class="text-nowrap">Heading 2</th>
+						<th class="text-nowrap">Heading 3</th>
+						<th class="text-nowrap">Heading 4</th>
+						<th class="text-nowrap">Heading 5</th>
+						<th class="text-nowrap">Heading 6</th>
+						<th class="text-nowrap">Heading 7</th>
+						<th class="text-nowrap">Heading 8</th>
+						<th class="text-nowrap">Heading 9</th>
+						<th class="text-nowrap">Heading 10</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>1</th>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+					<tr>
+						<th>2</th>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+				</tbody>
+			</table>
+			<hr/>
+			@Table() {
+				@TableHead("col-1","col-2","col-3","col-4","col-5","col-6")
+				@TableBody() {
+					A body
+					// @TableRow() {
+					// 	a
+					// }
+					// @TableRow() {
+					// 	a
+					// }
+					// @TableRow() {
+					// 	a
+					// }
+					// @TableRow() {
+					// 	a
+					// }
+					// @TableRow() {
+					// 	a
+					// }
+					// @TableRow() {
+					// 	a
+					// }
+				}
+			}
+		}
+	}
+}

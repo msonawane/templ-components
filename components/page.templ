@@ -1,39 +1,75 @@
 package components
 
 type PageOpts struct {
-	Title       string
-	BreadCrumbs templ.Component
-	Children    []templ.Component
+	Title          string
+	SecondaryTitle string
+	BreadCrumbs    templ.Component
+	Children       []templ.Component
+	TopButtonBar   templ.Component
 }
 
-templ Page(opts PageOpts) {
-	<div class="page-header ">
-		<div class="row align-items-center mw-100">
-			<div class="col">
-				if opts.BreadCrumbs != nil {
-					<div class="mb-1">
-						@opts.BreadCrumbs
-					</div>
-				}
-				<h2 class="page-title">
-					<span class="text-truncate">{ opts.Title }</span>
-				</h2>
-			</div>
-		</div>
-	</div>
+templ PageBody() {
 	<div class="page-body">
-		<div class="container-xl">
+		<div class="container-fluid">
 			{ children... }
 		</div>
 	</div>
 }
 
-templ P(opts LayoutOpts, pageOpts PageOpts) {
-	@SideBarlayout(opts) {
-		@Page(pageOpts) {
-			for _, alert := range pageOpts.Children {
-				@alert
-			}
-		}
-	}
+templ PageTitle(title string) {
+	<h2 class="page-title"><span class="text-truncate">{ title }</span></h2>
+}
+
+templ PageSecondaryTitle(title string) {
+	<div class="text-secondary mt-1">
+		<span class="text-truncate">{ title }</span>
+	</div>
+}
+
+templ PageBreadCrumbs() {
+	<div class="mb-1">
+		{ children... }
+	</div>
+}
+
+templ PageHeader() {
+	<div class="page-header ">
+		<div class="container-fluid">
+			<div class="row align-items-center">
+				<div class="col"></div>
+			</div>
+		</div>
+	</div>
+}
+
+templ Page(opts PageOpts) {
+	<div class="page-header ">
+		<div class="container-fluid">
+			<div class="row align-items-center">
+				<div class="col">
+					if opts.BreadCrumbs != nil {
+						<div class="mb-1">
+							@opts.BreadCrumbs
+						</div>
+					}
+					<h2 class="page-title"><span class="text-truncate">{ opts.Title }</span></h2>
+					if opts.SecondaryTitle != "" {
+						<div class="text-secondary mt-1">
+							<span class="text-truncate">{ opts.SecondaryTitle }</span>
+						</div>
+					}
+				</div>
+				if opts.TopButtonBar != nil {
+					<div class="col-auto">
+						@opts.TopButtonBar
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+	<div class="page-body">
+		<div class="container-fluid">
+			{ children... }
+		</div>
+	</div>
 }

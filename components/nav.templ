@@ -7,12 +7,18 @@ type NavItemOpts struct {
 	Active bool
 }
 
-templ NavItem(opts NavItemOpts) {
+templ NavItem(class,target,text string,active bool) {
 	<li class="nav-item">
-		<a class="nav-link" href={ templ.URL(opts.HREF) }>
+		<a class="nav-link" href={ templ.URL(target) }>
 			<span class="nav-link-title">
-				{ opts.Text }
+				{ text }
 			</span>
 		</a>
 	</li>
+}
+
+templ NavBarNav(class string) {
+	<ul class="navbar-nav pt-lg-3 {class}">
+		{ children... }
+	</ul>
 }

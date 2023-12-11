@@ -1,82 +1,95 @@
 package components
 
-type AlertOptions struct {
-	Icon        templ.Component
-	Title       string
-	Text        string
-	Classes     string
-	Success     bool
-	Info        bool
-	Warning     bool
-	Danger      bool
-	Dismissible bool
-}
+type AlertClass string
 
-var (
-	DangerAlertOpts = AlertOptions{
-		Icon:        AlertTriangleSVG(),
-		Title:       "Alert Title",
-		Text:        "Alert Test",
-		Dismissible: true,
-		Danger:      true,
-	}
-
-	SuccessAlertOpts = AlertOptions{
-		Icon:        CheckSVG(),
-		Title:       "Alert Title",
-		Text:        "Alert Test",
-		Dismissible: true,
-		Success:     true,
-	}
-	InfoAlertOpts = AlertOptions{
-		Icon:        InfoCircleSVG(),
-		Title:       "Alert Title",
-		Text:        "Alert Text",
-		Dismissible: true,
-		Info:        true,
-	}
-
-	WarningAlertOpts = AlertOptions{
-		Icon:        AlertTriangleSVG(),
-		Title:       "Alert Title",
-		Text:        "Alert Text",
-		Dismissible: true,
-		Warning:     true,
-	}
+const (
+	SUCCESS_ALERT = "alert-success"
+	WARNING_ALERT = "alert-warning"
+	INFO_ALERT    = "alert-info"
+	DANGER_ALERT  = "alert-danger"
 )
 
-templ Alert(opt AlertOptions) {
-	<div
- 		class={
-			"alert",
-			templ.KV("alert-dismissible", opt.Dismissible),
-			templ.KV("alert-success", opt.Success),
-			templ.KV("alert-info", opt.Info),
-			templ.KV("alert-danger", opt.Danger),
-			templ.KV("alert-warning", opt.Warning),
-			opt.Classes,
-		}
- 		role="alert"
-	>
+templ Alert( class string) {
+	<div class={ "alert alert-dismissible", class } role="alert">
 		<div class="d-flex">
-			if opt.Icon != nil {
-				<div class="alert-icon">
-					@opt.Icon
-				</div>
-			}
-			<div>
-				<h4 class="alert-title">{ opt.Title }</h4>
-				<div class="text-secondary">{ opt.Text }</div>
-			</div>
+			{ children... }
 			<a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a>
 		</div>
 	</div>
 }
 
-// templ AlertPage(opts LayoutOpts, alerts ...templ.Component) {
-// 	@SideBarlayout(opts) {
-// 		for _, alert := range alerts {
-// 			@alert
-// 		}
-// 	}
-// }
+templ AlertIcon(icon templ.Component) {
+	<div class="alert-icon">
+		@icon
+	</div>
+}
+
+templ AlertTitleAndText(title, text string) {
+	<div>
+		<h4 class="alert-title">{ title }</h4>
+		<div class="text-secondary">{ text }</div>
+		{ children... }
+	</div>
+}
+
+templ SuccessAlert(title, text string) {
+	@Alert(SUCCESS_ALERT) {
+		@AlertIcon(CheckSVG())
+		@AlertTitleAndText(title,text) {
+			{ children... }
+		}
+	}
+}
+
+templ WarningAlert(title, text string) {
+	@Alert(WARNING_ALERT) {
+		@AlertIcon(TriangleSVG())
+		@AlertTitleAndText(title,text) {
+			{ children... }
+		}
+	}
+}
+
+templ DangerAlert(title, text string) {
+	@Alert(DANGER_ALERT) {
+		@AlertIcon(TriangleSVG())
+		@AlertTitleAndText(title,text) {
+			{ children... }
+		}
+	}
+}
+
+templ InfoAlert(title, text string) {
+	@Alert(INFO_ALERT) {
+		@AlertIcon(InfoCircleSVG())
+		@AlertTitleAndText(title,text) {
+			{ children... }
+		}
+	}
+}
+
+templ AlertCard(breadCrumbs templ.Component) {
+	@Card() {
+		@CardHeader() {
+			@CardTitle() {
+				@breadCrumbs
+			}
+		}
+		@CardBody() {
+			@InfoAlert("Info Alert", "Alert Text") {
+				Hello
+			}
+			@SuccessAlert("Success", "Alert Text")
+			@WarningAlert("Warning", "Alert Text")
+			@DangerAlert("Danger", "Alert Text ")
+		}
+	}
+}
+
+templ AlertPage(opts LayoutOpts, bc templ.Component) {
+	@SideBarlayout(opts) {
+		@PageBody() {
+			@AlertCard(bc)
+		}
+	}
+}
