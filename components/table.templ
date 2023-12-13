@@ -1,7 +1,7 @@
 package components
 
-templ Table() {
-	<table class="table table-responsive">
+templ Table(class ...string) {
+	<table class="table table-responsive card-table">
 		{ children... }
 	</table>
 }
@@ -24,82 +24,55 @@ templ TableBody() {
 
 templ TableRow( class ...string) {
 	<tr class={ class }>
-		b
 		{ children... }
 	</tr>
+}
+
+templ TableCol(class ...string) {
+	<td>
+		{ children... }
+	</td>
 }
 
 templ TablePage(opts LayoutOpts, bc templ.Component) {
 	@SideBarlayout(opts) {
 		@PageBody() {
-			<table class="table table-responsive">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th class="text-nowrap">Heading 1</th>
-						<th class="text-nowrap">Heading 2</th>
-						<th class="text-nowrap">Heading 3</th>
-						<th class="text-nowrap">Heading 4</th>
-						<th class="text-nowrap">Heading 5</th>
-						<th class="text-nowrap">Heading 6</th>
-						<th class="text-nowrap">Heading 7</th>
-						<th class="text-nowrap">Heading 8</th>
-						<th class="text-nowrap">Heading 9</th>
-						<th class="text-nowrap">Heading 10</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th>1</th>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-					</tr>
-					<tr>
-						<th>2</th>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-						<td>Cell</td>
-					</tr>
-				</tbody>
-			</table>
-			<hr/>
+			@TableCard(bc)
+		}
+	}
+}
+
+templ TableCard( breadCrumbs templ.Component) {
+	@Card() {
+		@CardHeader() {
+			@CardTitle() {
+				@breadCrumbs
+			}
+		}
+		@CardBody() {
 			@Table() {
 				@TableHead("col-1","col-2","col-3","col-4","col-5","col-6")
 				@TableBody() {
-					A body
-					// @TableRow() {
-					// 	a
-					// }
-					// @TableRow() {
-					// 	a
-					// }
-					// @TableRow() {
-					// 	a
-					// }
-					// @TableRow() {
-					// 	a
-					// }
-					// @TableRow() {
-					// 	a
-					// }
-					// @TableRow() {
-					// 	a
-					// }
+					@TableRow() {
+						@TableCol() {
+							col
+						}
+						@TableCol() {
+							col
+						}
+						@TableCol() {
+							col
+						}
+						@TableCol() {
+							col
+						}
+						@TableCol() {
+							col
+						}
+						@TableCol() {
+							col
+						}
+					}
 				}
 			}
 		}

@@ -18,6 +18,12 @@ templ CardTitle() {
 	</h1>
 }
 
+templ CardFooter(class ...string) {
+	<div class={ "card-footer", class }>
+		{ children... }
+	</div>
+}
+
 templ CardActions() {
 	<div class="card-actions">
 		<div class="btn-list">
@@ -52,6 +58,69 @@ templ CardPage(opts LayoutOpts, breadCrumbs templ.Component) {
 					}
 				}
 				@CardBody() {
+					<table class="table">
+						<thead class="sticky-top">
+							<tr>
+								<th scope="col">Class</th>
+								<th scope="col">Heading</th>
+								<th scope="col">Heading</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">Default</th>
+								<td>Cell</td>
+								<td>Cell</td>
+							</tr>
+							<tr>
+								<th scope="row">Primary</th>
+								<td>Cell</td>
+								<td>Cell</td>
+							</tr>
+							<tr>
+								<th scope="row">Secondary</th>
+								<td>Cell</td>
+								<td>Cell</td>
+							</tr>
+							<tr>
+								<th scope="row">Success</th>
+								<td>Cell</td>
+								<td>Cell</td>
+							</tr>
+							<tr>
+								<th scope="row">Danger</th>
+								<td>Cell</td>
+								<td>Cell</td>
+							</tr>
+							<tr>
+								<th scope="row">Warning</th>
+								<td>Cell</td>
+								<td>Cell</td>
+							</tr>
+							<tr>
+								<th scope="row">Info</th>
+								<td>Cell</td>
+								<td>Cell</td>
+							</tr>
+							<tr>
+								<th scope="row">Light</th>
+								<td>Cell</td>
+								<td>Cell</td>
+							</tr>
+							<tr class="table-dark">
+								<th scope="row">Dark</th>
+								<td>Cell</td>
+								<td>Cell</td>
+							</tr>
+						</tbody>
+					</table>
+				}
+				@CardFooter(" d-flex align-items-center") {
+					<p class="m-0 text-secondary">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
+					@CardActions() {
+						@Button(ButtonOpts{Primary: true, Target: "#", Text: "Primary"})
+						@Button(ButtonOpts{Info: true, Text: "Info"})
+					}
 				}
 			}
 		}
