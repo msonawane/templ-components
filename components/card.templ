@@ -1,5 +1,7 @@
 package components
 
+import "fmt"
+
 type CardOptions struct {
 	Title       string
 	Children    templ.Component
@@ -117,9 +119,14 @@ templ CardPage(opts LayoutOpts, breadCrumbs templ.Component) {
 				}
 				@CardFooter(" d-flex align-items-center") {
 					<p class="m-0 text-secondary">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
-					@CardActions() {
-						@Button(ButtonOpts{Primary: true, Target: "#", Text: "Primary"})
-						@Button(ButtonOpts{Info: true, Text: "Info"})
+					@Pagination() {
+						for i:=0; i < 10; i++ {
+							@PaginationItem() {
+								@PaginationLink("#") {
+									{   fmt.Sprint(i) }
+								}
+							}
+						}
 					}
 				}
 			}

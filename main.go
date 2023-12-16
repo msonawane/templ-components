@@ -18,7 +18,6 @@ var (
 )
 
 func main() {
-
 	e := echo.New()
 
 	g := e.Group("")
@@ -32,10 +31,11 @@ func main() {
 }
 
 func alerts(ctx echo.Context) error {
-	links := []components.LinkOpts{{
-		HREF: "/",
-		Text: "Components",
-	},
+	links := []components.LinkOpts{
+		{
+			HREF: "/",
+			Text: "Components",
+		},
 		{
 			HREF:   ctx.Echo().Reverse("alerts"),
 			Text:   "Alerts",
@@ -48,7 +48,6 @@ func alerts(ctx echo.Context) error {
 }
 
 func buttons(ctx echo.Context) error {
-
 	nm := NavMenu(ctx)["buttons"]
 	nm.Active = true
 	links := []components.LinkOpts{
@@ -61,7 +60,6 @@ func buttons(ctx echo.Context) error {
 }
 
 func cards(ctx echo.Context) error {
-
 	nm := NavMenu(ctx)["cards"]
 	nm.Active = true
 	links := []components.LinkOpts{
@@ -74,7 +72,6 @@ func cards(ctx echo.Context) error {
 }
 
 func tables(ctx echo.Context) error {
-
 	nm := NavMenu(ctx)["tables"]
 	nm.Active = true
 	links := []components.LinkOpts{
@@ -85,6 +82,7 @@ func tables(ctx echo.Context) error {
 
 	return components.TablePage(layoutOpts, bc).Render(ctx.Request().Context(), ctx.Response().Writer)
 }
+
 func NavMenu(ctx echo.Context) map[string]components.LinkOpts {
 	menuLinks := map[string]components.LinkOpts{}
 	menuLinks["root"] = components.LinkOpts{
@@ -101,7 +99,7 @@ func NavMenu(ctx echo.Context) map[string]components.LinkOpts {
 	}
 	menuLinks["cards"] = components.LinkOpts{
 		HREF: ctx.Echo().Reverse("cards"),
-		Text: "Card with Action buttons",
+		Text: "Card with Action buttons and Pagination",
 	}
 	menuLinks["tables"] = components.LinkOpts{
 		HREF: ctx.Echo().Reverse("tables"),
