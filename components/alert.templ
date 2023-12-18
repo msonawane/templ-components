@@ -88,8 +88,6 @@ templ AlertCard(breadCrumbs templ.Component) {
 
 templ AlertPage(opts LayoutOpts, bc templ.Component) {
 	@SideBarlayout(opts) {
-		@PageBody() {
-			@AlertCard(bc)
-		}
+		@AlertCard(bc)
 	}
 }

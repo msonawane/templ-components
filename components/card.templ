@@ -46,90 +46,92 @@ templ Card() {
 	</div>
 }
 
-templ CardPage(opts LayoutOpts, breadCrumbs templ.Component) {
-	@SideBarlayout(opts) {
-		@PageBody() {
-			@Card() {
-				@CardHeader() {
-					@CardTitle() {
-						@breadCrumbs
-					}
-					@CardActions() {
-						@Button(ButtonOpts{Primary: true, Target: "#", Text: "Primary"})
-						@Button(ButtonOpts{Info: true, Text: "Info"})
-					}
-				}
-				@CardBody() {
-					<table class="table">
-						<thead class="sticky-top">
-							<tr>
-								<th scope="col">Class</th>
-								<th scope="col">Heading</th>
-								<th scope="col">Heading</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">Default</th>
-								<td>Cell</td>
-								<td>Cell</td>
-							</tr>
-							<tr>
-								<th scope="row">Primary</th>
-								<td>Cell</td>
-								<td>Cell</td>
-							</tr>
-							<tr>
-								<th scope="row">Secondary</th>
-								<td>Cell</td>
-								<td>Cell</td>
-							</tr>
-							<tr>
-								<th scope="row">Success</th>
-								<td>Cell</td>
-								<td>Cell</td>
-							</tr>
-							<tr>
-								<th scope="row">Danger</th>
-								<td>Cell</td>
-								<td>Cell</td>
-							</tr>
-							<tr>
-								<th scope="row">Warning</th>
-								<td>Cell</td>
-								<td>Cell</td>
-							</tr>
-							<tr>
-								<th scope="row">Info</th>
-								<td>Cell</td>
-								<td>Cell</td>
-							</tr>
-							<tr>
-								<th scope="row">Light</th>
-								<td>Cell</td>
-								<td>Cell</td>
-							</tr>
-							<tr class="table-dark">
-								<th scope="row">Dark</th>
-								<td>Cell</td>
-								<td>Cell</td>
-							</tr>
-						</tbody>
-					</table>
-				}
-				@CardFooter(" d-flex align-items-center") {
-					<p class="m-0 text-secondary">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
-					@Pagination() {
-						for i:=0; i < 10; i++ {
-							@PaginationItem() {
-								@PaginationLink("#") {
-									{   fmt.Sprint(i) }
-								}
-							}
+templ CardShowCase(breadCrumbs templ.Component) {
+	@Card() {
+		@CardHeader() {
+			@CardTitle() {
+				@breadCrumbs
+			}
+			@CardActions() {
+				@Button(ButtonOpts{Primary: true, Target: "#", Text: "Primary"})
+				@Button(ButtonOpts{Info: true, Text: "Info"})
+			}
+		}
+		@CardBody() {
+			<table class="table">
+				<thead class="sticky-top">
+					<tr>
+						<th scope="col">Class</th>
+						<th scope="col">Heading</th>
+						<th scope="col">Heading</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Default</th>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+					<tr>
+						<th scope="row">Primary</th>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+					<tr>
+						<th scope="row">Secondary</th>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+					<tr>
+						<th scope="row">Success</th>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+					<tr>
+						<th scope="row">Danger</th>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+					<tr>
+						<th scope="row">Warning</th>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+					<tr>
+						<th scope="row">Info</th>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+					<tr>
+						<th scope="row">Light</th>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+					<tr class="table-dark">
+						<th scope="row">Dark</th>
+						<td>Cell</td>
+						<td>Cell</td>
+					</tr>
+				</tbody>
+			</table>
+		}
+		@CardFooter(" d-flex align-items-center") {
+			<p class="m-0 text-secondary">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
+			@Pagination() {
+				for i:=0; i < 10; i++ {
+					@PaginationItem() {
+						@PaginationLink("#") {
+							{   fmt.Sprint(i) }
 						}
 					}
 				}
 			}
 		}
+	}
+}
+
+templ CardPage(opts LayoutOpts, breadCrumbs templ.Component) {
+	@SideBarlayout(opts) {
+		@CardShowCase(breadCrumbs)
 	}
 }

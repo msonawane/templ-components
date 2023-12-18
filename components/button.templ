@@ -14,7 +14,7 @@ type ButtonOpts struct {
 templ Button( opts ButtonOpts) {
 	<a
  		href={ templ.URL(opts.Target) }
- 		class={ 
+ 		class={
 			"btn",
 			templ.KV("btn-primary", opts.Primary),
 			templ.KV("btn-secondary", opts.Secondary),
@@ -26,7 +26,7 @@ templ Button( opts ButtonOpts) {
 			templ.KV("btn-light", opts.Light),
 			templ.KV("disabled", opts.Disabled),
 			opts.Class,
-		 }
+		}
 	>
 		if opts.Icon != nil {
 			@opts.Icon
@@ -46,9 +46,7 @@ templ ButtonList(class ...string) {
 
 templ ButtonPage(opts LayoutOpts, bc templ.Component) {
 	@SideBarlayout(opts) {
-		@PageBody() {
-			@ButtonCard(bc)
-		}
+		@ButtonCard(bc)
 	}
 }
 

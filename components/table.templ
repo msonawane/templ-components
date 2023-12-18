@@ -36,9 +36,7 @@ templ TableCol(class ...string) {
 
 templ TablePage(opts LayoutOpts, bc templ.Component) {
 	@SideBarlayout(opts) {
-		@PageBody() {
-			@TableCard(bc)
-		}
+		@TableCard(bc)
 	}
 }
 

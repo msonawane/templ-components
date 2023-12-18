@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/angelofallars/htmx-go"
 	"github.com/labstack/echo/v4"
 	"github.com/msonawane/fe/components"
 )
@@ -43,6 +44,10 @@ func alerts(ctx echo.Context) error {
 		},
 	}
 	bc := components.BreadCrumbs(links...)
+	if htmx.IsHTMX(ctx.Request()) {
+		return htmx.NewResponse().
+			RenderTempl(ctx.Request().Context(), ctx.Response(), components.AlertCard(bc))
+	}
 
 	return components.AlertPage(layoutOpts, bc).Render(ctx.Request().Context(), ctx.Response().Writer)
 }
@@ -55,6 +60,10 @@ func buttons(ctx echo.Context) error {
 		nm,
 	}
 	bc := components.BreadCrumbs(links...)
+	if htmx.IsHTMX(ctx.Request()) {
+		return htmx.NewResponse().
+			RenderTempl(ctx.Request().Context(), ctx.Response(), components.ButtonCard(bc))
+	}
 
 	return components.ButtonPage(layoutOpts, bc).Render(ctx.Request().Context(), ctx.Response().Writer)
 }
@@ -68,6 +77,10 @@ func cards(ctx echo.Context) error {
 	}
 	bc := components.BreadCrumbs(links...)
 
+	if htmx.IsHTMX(ctx.Request()) {
+		return htmx.NewResponse().
+			RenderTempl(ctx.Request().Context(), ctx.Response(), components.CardShowCase(bc))
+	}
 	return components.CardPage(layoutOpts, bc).Render(ctx.Request().Context(), ctx.Response().Writer)
 }
 
@@ -79,6 +92,10 @@ func tables(ctx echo.Context) error {
 		nm,
 	}
 	bc := components.BreadCrumbs(links...)
+	if htmx.IsHTMX(ctx.Request()) {
+		return htmx.NewResponse().
+			RenderTempl(ctx.Request().Context(), ctx.Response(), components.TableCard(bc))
+	}
 
 	return components.TablePage(layoutOpts, bc).Render(ctx.Request().Context(), ctx.Response().Writer)
 }

@@ -9,7 +9,7 @@ type NavItemOpts struct {
 
 templ NavItem(class,target,text string,active bool) {
 	<li class="nav-item">
-		<a class="nav-link" href={ templ.URL(target) }>
+		<a class="nav-link" href={ templ.URL(target) } hx-get={ target } hx-target="#htmx-boost-here">
 			<span class="nav-link-title">
 				{ text }
 			</span>
